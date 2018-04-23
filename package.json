@@ -18,10 +18,13 @@
   },
   "homepage": "https://github.com/llanoreinaldo/LIRI-Node-App#readme",
   "dependencies": {
+    "api": "^1.0.0",
     "dotenv": "^5.0.1",
     "inspect-process": "^0.5.0",
     "node-spotify-api": "^1.0.7",
     "npm": "^5.8.0",
+    "omdb": "^0.8.0",
+    "request": "^2.85.0",
     "twitter": "^1.7.1"
   }
 }
