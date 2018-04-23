@@ -58,9 +58,16 @@ function myTweets() {
     screen_name: name,
     count: 20
   };
-  client.get('statuses/user_timeline', params, function (error, tweets, response) {
-    if (!error) {
-      console.log(tweets);
+  client.get('statuses/user_timeline', params, function (error, data, response) {
+    if (error) {
+      console.log(error)
+    } else if (data) {
+      for (var i = 0; i < data.length; i++) {
+        console.log('\nHandle:', data[i].user.screen_name.blue);
+        console.log('Recent Tweet:', data[i].text.red);
+        console.log('Created at:', data[i].created_at .green);
+        console.log("-----------------------------------------------------------\n");
+      }
     }
   });
 
@@ -80,28 +87,32 @@ function spotifySong() {
     }
 
     // We will then print the contents of data
-    console.log(data);
+    //console.log(data);
 
     // Then split it by commas (to make it more readable)
     var dataArr = data.split(",");
 
     // We will then re-display the content as an array for later use.
-    console.log(dataArr);
+    //console.log(dataArr);
 
 
     var params = {
-      type: 'artist OR album OR track',
-      query: data,
+      type: 'track',
+      query: dataArr[1],
       limit: 1
     };
 
-    spotify.search(params, function (err, callback) {
+    spotify.search(params, function (err, response) {
 
       if (err) {
         return console.log('Error occurred: ' + err);
       }
-
-      console.log(data);
+      console.log("\nSong Title: ", response.tracks.items[0].name.red);
+      console.log("Artist: ", response.tracks.items[0].artists[0].name.green);
+      console.log("Album: ", response.tracks.items[0].album.name.grey);
+      console.log("Release Date: ", response.tracks.items[0].album.release_date.yellow);
+      console.log("Preview URL: ", response.tracks.items[0].preview_url.underline.blue);
+      console.log("-----------------------------------------------------------\n");
     });
 
   });
