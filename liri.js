@@ -65,7 +65,7 @@ function myTweets() {
       for (var i = 0; i < data.length; i++) {
         console.log('\nHandle:', data[i].user.screen_name.blue);
         console.log('Recent Tweet:', data[i].text.red);
-        console.log('Created at:', data[i].created_at .green);
+        console.log('Created at:', data[i].created_at.green);
         console.log("-----------------------------------------------------------\n");
       }
     }
@@ -73,32 +73,54 @@ function myTweets() {
 
 }
 
-
-
 function spotifySong() {
 
-  // This block of code will read from the "random.txt" file.
-  // The code will store the contents of the reading inside the variable "data"
-  fs.readFile("random.txt", "utf8", function (error, data) {
+  var song = value;
 
-    // If the code experiences any errors it will log the error to the console.
-    if (error) {
-      return console.log(error);
-    }
+  if (song === '') {
+    // This block of code will read from the "random.txt" file.
+    // The code will store the contents of the reading inside the variable "data"
+    fs.readFile("random.txt", "utf8", function (error, data) {
 
-    // We will then print the contents of data
-    //console.log(data);
+      // If the code experiences any errors it will log the error to the console.
+      if (error) {
+        return console.log(error);
+      }
 
-    // Then split it by commas (to make it more readable)
-    var dataArr = data.split(",");
+      // We will then print the contents of data
+      //console.log(data);
 
-    // We will then re-display the content as an array for later use.
-    //console.log(dataArr);
+      // Then split it by commas (to make it more readable)
+      var dataArr = data.split(",");
+
+      // We will then re-display the content as an array for later use.
+      //console.log(dataArr);
 
 
+      var params = {
+        type: 'track',
+        query: dataArr[1],
+        limit: 1
+      };
+
+      spotify.search(params, function (err, response) {
+
+        if (err) {
+          return console.log('Error occurred: ' + err);
+        }
+        console.log("\nSong Title: ", response.tracks.items[0].name.red);
+        console.log("Artist: ", response.tracks.items[0].artists[0].name.green);
+        console.log("Album: ", response.tracks.items[0].album.name.grey);
+        console.log("Release Date: ", response.tracks.items[0].album.release_date.yellow);
+        console.log("Preview URL: ", response.tracks.items[0].preview_url.underline.blue);
+        console.log("-----------------------------------------------------------\n");
+      });
+
+    });
+  } else {
     var params = {
       type: 'track',
-      query: dataArr[1],
+      query: value,
       limit: 1
     };
 
@@ -114,6 +136,60 @@ function spotifySong() {
       console.log("Preview URL: ", response.tracks.items[0].preview_url.underline.blue);
       console.log("-----------------------------------------------------------\n");
     });
+  }
+};
 
-  });
+function movieThis() {
+
+  var movie = value;
+
+  if (movie === "") {
+    movie = "Mr. Nobody"
+    Request("http://www.omdbapi.com/?apikey=trilogy&t=" + movie + "&type=movie&plot=full", function (error, response, body) {
+      //  console.log('error:', error); // Print the error if one occurred
+      // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+      //  console.log('body:', body); // Print the HTML for the Google homepage.
+
+      if (response.statusCode === 200 && JSON.parse(body).Title) {
+
+        console.log("\nTitle: ", JSON.parse(body).Title.red); // Title of the movie.
+        console.log("Release Year: ", JSON.parse(body).Year.green); //Year the movie came out.
+        console.log('IMDB Ratings:', JSON.parse(body).Ratings[0].Value.blue); //IMDB Rating of the movie.
+        console.log('Rotten Tomatoes Ratings: ', JSON.parse(body).Ratings[1].Value.red); //Rotten Tomatoes Rating of the movie.
+        console.log("Country produced in: ", JSON.parse(body).Country .yellow); //Country where the movie was produced.
+        console.log("Language(s): ", JSON.parse(body).Language.green); //Language of the movie.
+        console.log("Plot: ", JSON.parse(body).Plot.blue); //Plot of the movie.
+        console.log("Actors: ", JSON.parse(body).Actors .yellow, "\n"); //Actors in the movie.
+
+      } else {
+        console.log("Movie not found");
+        console.log(response.statusCode);
+      };
+
+    });
+  } else {
+
+    Request("http://www.omdbapi.com/?apikey=trilogy&t=" + movie + "&type=movie&plot=full", function (error, response, body) {
+      //  console.log('error:', error); // Print the error if one occurred
+      // console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+      //  console.log('body:', body); // Print the HTML for the Google homepage.
+
+      if (response.statusCode === 200 && JSON.parse(body).Title) {
+
+        console.log("\nTitle: ", JSON.parse(body).Title.red); // Title of the movie.
+        console.log("Release Year: ", JSON.parse(body).Year.green); //Year the movie came out.
+        console.log('IMDB Ratings:', JSON.parse(body).Ratings[0].Value.blue); //IMDB Rating of the movie.
+        console.log('Rotten Tomatoes Ratings: ', JSON.parse(body).Ratings[1].Value.red); //Rotten Tomatoes Rating of the movie.
+        console.log("Country produced in: ", JSON.parse(body).Country .yellow); //Country where the movie was produced.
+        console.log("Language(s): ", JSON.parse(body).Language.green); //Language of the movie.
+        console.log("Plot: ", JSON.parse(body).Plot.blue); //Plot of the movie.
+        console.log("Actors: ", JSON.parse(body).Actors .yellow, "\n"); //Actors in the movie.
+
+      } else {
+        console.log("Movie not found");
+        console.log(response.statusCode);
+      };
+
+    });
+  };
 };
