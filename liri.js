@@ -79,50 +79,31 @@ function spotifySong() {
 
   var song = value;
 
-  if (song === '') {
-    // This block of code will read from the "random.txt" file.
-    // The code will store the contents of the reading inside the variable "data"
-    fs.readFile("random.txt", "utf8", function (error, data) {
+  if (song === undefined) {
+    var song = "The Sign Ace of Base"
+    var params = {
+      type: 'track',
+      query: song,
+      limit: 1
+    };
 
-      // If the code experiences any errors it will log the error to the console.
-      if (error) {
-        return console.log(error);
+    spotify.search(params, function (err, response) {
+
+      if (err) {
+        return console.log('Error occurred: ' + err);
       }
-
-      // We will then print the contents of data
-      //console.log(data);
-
-      // Then split it by commas (to make it more readable)
-      var dataArr = data.split(",");
-
-      // We will then re-display the content as an array for later use.
-      //console.log(dataArr);
-
-
-      var params = {
-        type: 'track',
-        query: dataArr[1],
-        limit: 1
-      };
-
-      spotify.search(params, function (err, response) {
-
-        if (err) {
-          return console.log('Error occurred: ' + err);
-        }
-        console.log("\nSong Title: ", response.tracks.items[0].name .red);
-        console.log("Artist: ", response.tracks.items[0].artists[0].name .green);
-        console.log("Album: ", response.tracks.items[0].album.name .grey);
-        console.log("Release Date: ", response.tracks.items[0].album.release_date .yellow);
-        console.log("Preview URL: ", response.tracks.items[0].preview_url.underline .blue);
-        console.log("-----------------------------------------------------------\n");
-      });
-
+      console.log("\nSong Title: ", response.tracks.items[0].name .red);
+      console.log("Artist: ", response.tracks.items[0].artists[0].name .green);
+      console.log("Album: ", response.tracks.items[0].album.name .grey);
+      console.log("Release Date: ", response.tracks.items[0].album.release_date .yellow);
+      console.log("Preview URL: ", response.tracks.items[0].preview_url.underline .blue);
+      console.log("-----------------------------------------------------------\n");
+   
     });
   } else {
     var params = {
       type: 'track',
-      query: value,
+      query: song,
       limit: 1
     };
 
