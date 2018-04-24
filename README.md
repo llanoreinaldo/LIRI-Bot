@@ -29,3 +29,8 @@ For this project, I created a LIRI. LIRI is like iPhone's SIRI. However, while S
 
 4. `node liri.js do-what-it-says` - Using the `fs` Node package, LIRI will take the text inside of random.txt and then use it to call one of LIRI's commands.  It will run `spotify-this-song` for "I Want it That Way," as it is the text listed in the `random.txt` file.
  
+
+#Video Recording
+[My Video](graphics/myvideo.webm)
+
+[My Video](graphics/myvideo.mp4)
