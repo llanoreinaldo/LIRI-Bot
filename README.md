@@ -39,4 +39,4 @@ For this project, I created a LIRI. LIRI is like iPhone's SIRI. However, while S
 #Video Recording
 
 * Below is a full recording of my project as well. 
-![My Video](graphics/myvideo.mp4)
+[My Video](graphics/myvideo.mp4)
